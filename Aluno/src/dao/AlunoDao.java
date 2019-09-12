@@ -9,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import modelo.Aluno;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,12 +20,11 @@ import modelo.Aluno;
 public class AlunoDao {
     
      public static boolean inserir(Aluno objeto) {
-        String sql = "INSERT INTO Aluno (nome, sobrenome, sexo) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Aluno (nome, endereco) VALUES (?, ?)";
         try {
             PreparedStatement ps = conexao.Conexao.getConexao().prepareStatement(sql);
             ps.setString(1, objeto.getNome());
-            ps.setString(2, objeto.getSobrenome());
-            ps.setString(3, objeto.getSexo());
+            ps.setString(2, objeto.getEndereco());
             ps.executeUpdate();
             return true;
         } catch (SQLException | ClassNotFoundException ex) {
@@ -34,8 +36,8 @@ public class AlunoDao {
     public static void main(String[] args) {
         Aluno objeto = new Aluno();
         objeto.setNome("Taiane");
-        objeto.setSobrenome("Kuntzler");
-        objeto.setSexo("f");
+        objeto.setEndereco("Ibirubá");
+        
         
         boolean resultado = inserir(objeto);
         if (resultado) {
@@ -47,13 +49,12 @@ public class AlunoDao {
     
     
     public static boolean alterar(Aluno objeto) {
-        String sql = "UPDATE aluno SET nome = ?, sobrenome = ?, sexo = ? WHERE codigo=?";
+        String sql = "UPDATE aluno SET nome = ?, endereco = ? WHERE codigo=?";
         try {
             PreparedStatement ps = conexao.Conexao.getConexao().prepareStatement(sql);
             ps.setString(1, objeto.getNome()); 
-            ps.setString(2, objeto.getSobrenome());
+            ps.setString(2, objeto.getEndereco());
             ps.setInt(3, objeto.getCodigo());
-            ps.setString(4, objeto.getSexo());
             ps.executeUpdate();
             return true;
         } catch (SQLException | ClassNotFoundException ex) {
@@ -75,4 +76,29 @@ public class AlunoDao {
         }
     }
 
+    
+    
+   public static List<Aluno> consultar() {
+        List<Aluno> resultados = new ArrayList<>();
+        //editar o SQL conforme a entidade
+        String sql = "SELECT codigo, nome, endereco FROM aluno";
+        PreparedStatement ps;
+        try {
+            ps = conexao.Conexao.getConexao().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Aluno objeto = new Aluno();
+                //definir um set para cada atributo da entidade, cuidado com o tipo
+                objeto.setCodigo(rs.getInt("codigo"));
+                objeto.setNome(rs.getString("nome"));
+                objeto.setEndereco(rs.getString("endereco"));
+                
+                resultados.add(objeto);//não mexa nesse, ele adiciona o objeto na lista
+            }
+            return resultados;
+        } catch (SQLException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+} 
 }

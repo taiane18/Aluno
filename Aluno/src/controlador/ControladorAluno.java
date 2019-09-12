@@ -9,6 +9,11 @@ import dao.AlunoDao;
 import javax.swing.JOptionPane;
 import modelo.Aluno;
 import tela.manutencao.ManutencaoAluno;
+import java.util.List;
+
+import java.util.Vector;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,8 +24,7 @@ public class ControladorAluno {
     public static void inserir(ManutencaoAluno man){
         Aluno objeto = new Aluno();
         objeto.setNome(man.jtfNome.getText());
-        objeto.setSobrenome(man.jtfSobrenome.getText());
-        objeto.setSexo(man.jtfSexo.getText());
+        objeto.setEndereco(man.jtfEndereco.getText());
         
         boolean resultado = AlunoDao.inserir(objeto);
         if (resultado) {
@@ -35,8 +39,7 @@ public class ControladorAluno {
         //definir todos os atributos
         objeto.setCodigo(Integer.parseInt(man.jtfCodigo.getText()));
         objeto.setNome(man.jtfNome.getText());
-        objeto.setSobrenome(man.jtfSobrenome.getText());
-        objeto.setSexo(man.jtfSexo.getText());
+        objeto.setEndereco(man.jtfEndereco.getText());
         
         boolean resultado = AlunoDao.alterar(objeto);
         if (resultado) {
@@ -58,5 +61,22 @@ public class ControladorAluno {
         }
     }
     
-    
+  public static void atualizarTabela(JTable tabela) {
+        DefaultTableModel modelo = new DefaultTableModel();
+        //definindo o cabeçalho da tabela
+        modelo.addColumn("Codigo");
+        modelo.addColumn("Nome");
+        modelo.addColumn("Endereco");
+        List<Aluno> resultados = AlunoDao.consultar();
+        for (Aluno objeto : resultados) {
+            Vector linha = new Vector();
+            
+            //definindo o conteúdo da tabela
+            linha.add(objeto.getCodigo());
+            linha.add(objeto.getNome());
+            linha.add(objeto.getEndereco());
+            modelo.addRow(linha); //adicionando a linha na tabela
+        }
+        tabela.setModel(modelo);
+    }  
 }

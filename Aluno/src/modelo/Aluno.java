@@ -10,19 +10,9 @@ package modelo;
  * @author Administrador
  */
 public class Aluno {
-    
-    private int codigo;
-    private String nome;
-    private String sobrenome;
-    private String sexo;
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
+   private String nome;
+   private String endereco;
+   private int codigo;
 
     public String getNome() {
         return nome;
@@ -32,34 +22,27 @@ public class Aluno {
         this.nome = nome;
     }
 
-    public String getSobrenome() {
-        return sobrenome;
+    public String getEndereco() {
+        return endereco;
     }
 
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
-    public String getSexo() {
-        return sexo;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     @Override
     public String toString() {
-        return nome + sobrenome;
+        return endereco ;
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
+   
+   
     
 }
